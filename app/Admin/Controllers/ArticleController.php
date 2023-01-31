@@ -31,9 +31,17 @@ class ArticleController extends AdminController
         $grid->column('article.title', 'Category');
         // $grid->article()->title();
         $grid->subtitle();
-        $grid->description();
+        $grid->column('description', __('Description'))->display(function($val) {
+            return substr($val, 0, 300);
+        });
         $grid->column('released', 'Released')->bool();
         $grid->column('thumbnail', __('Photo Thumbnail'))->image('', '60','60');
+
+        $grid->filter(function($filter){
+            $filter->disableIdFilter();
+            $filter->like('title', __('Title'));
+            $filter->like('article.title', __('Category'));
+        });
 
         return $grid;
     }  
